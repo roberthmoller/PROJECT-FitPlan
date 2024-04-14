@@ -66,7 +66,7 @@
 		</blockquote>
 	</section>
 	<figure>
-		<img src="https://source.unsplash.com/featured/?gym" alt="Gym Image">
+		<img src="https://source.unsplash.com/featured/?gym&workout" alt="Gym Image">
 	</figure>
 </main>
 <!--        <footer>-->
