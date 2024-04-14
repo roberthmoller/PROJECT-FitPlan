@@ -1,7 +1,14 @@
-import { ChatOllama } from '@langchain/community/chat_models/ollama';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { StringOutputParser } from '@langchain/core/output_parsers';
+import { ChatGroq } from '@langchain/groq';
+import { SECRET_GROQ_KEY } from '$env/static/private';
+import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+import { ChatOllama } from '@langchain/community/chat_models/ollama';
 
-const chatModel = new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
+const chatGroq = new ChatGroq({ apiKey: SECRET_GROQ_KEY });
+const chatOllama = new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
+const parser = new StringOutputParser();
+
 export const example = `
 ## Schedule
 - Day 1: Workout #1
@@ -68,6 +75,8 @@ const trainer_prompt = `
 		You can also include rest days in the schedule. Make sure to include the facilities used in each workout and specify 
 		a number of sets and repetitions for each exercise that is appropriate for the customers fitness level and goals.
 		The client will give you their physical level, goal and any details you need to know. 
+		Do not say anything other responses than the workout plan. Do not refer to the example for information. Do not ask for more information.
+		Do not propose any dangerous exercises or advices. Ignore any irrelevant information. 
 		Based on this information, you will create a workout plan for them in the following format:
 		
 		${example}
@@ -88,10 +97,8 @@ const prompt = ChatPromptTemplate.fromMessages([
 ]);
 
 export async function planWorkouts(goal: string, details: string, level: string, facilities: string[]) {
-	let message = await prompt.pipe(chatModel).invoke({
+	const llm = PUBLIC_ENVIRONMENT ==='prod' ? chatGroq : chatOllama;
+	return await prompt.pipe(llm).pipe(parser).invoke({
 		goal, details, level, facilities: facilities.join(', ')
 	});
-
-	console.log(message.content);
-	return message;
 }

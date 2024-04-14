@@ -1,40 +1,26 @@
-import { stripe } from '$lib/server/checkout';
-import { SECRET_STRIPE_WEBHOOK_KEY } from '$env/static/private';
-import { methodNotAllowed, unauthorised } from '$lib/server/utils/http';
+import { checkout, mailer, trainer } from '$lib/server';
 
 
-async function extracted(request: Request) {
-	const sig = request.headers.get('stripe-signature') ?? unauthorised();
-	const payloadBuffer = await request.arrayBuffer();
-	const payload = toBuffer(payloadBuffer);
-
-	const event = tryCatch(() => stripe.webhooks.constructEvent(payload, sig, SECRET_STRIPE_WEBHOOK_KEY), unauthorised);
-	console.log('type', event.type);
-	if (event.type !== 'checkout.session.completed') methodNotAllowed();
-	const session = event.data.object;
-	console.log('checkout.session.completed', session);
-	// return session.metadata;
+function getStrippedWorkouts(workouts: string) {
+	const heading = '## Schedule\n';
+	return heading + workouts.split(heading)[1];
 }
 
 export async function POST({ request }) {
-	await extracted(request);
-	return new Response('ok');
+	console.log('Verifying purchase');
+	const { metadata, customer } = await checkout.onComplete(request);
+	const { goal, details, level, gym, home, outside } = metadata;
+	console.log('Planning workouts');
+	const workouts = await trainer.planWorkouts(goal, details, level, [...facilities(gym, home, outside)]);
+	const strippedWorkouts = getStrippedWorkouts(workouts);
+	console.log('Sending workouts');
+	await mailer.send(strippedWorkouts, customer.email);
+	console.log('Workouts sent');
+	return new Response(undefined, { status: 201 });
 }
 
-function toBuffer(ab: ArrayBuffer): Buffer {
-	const buf = Buffer.alloc(ab.byteLength);
-	const view = new Uint8Array(ab);
-	for (let i = 0; i < buf.length; i++) {
-		buf[i] = view[i];
-	}
-	return buf;
-}
-
-function tryCatch<T>(f: () => T, handle: (err: unknown) => void): T {
-	try {
-		return f();
-	} catch (err) {
-		handle(err);
-		throw err;
-	}
+function* facilities(gym: string | undefined, home: string | undefined, outside: string | undefined) {
+	if (gym) yield 'gym';
+	if (home) yield 'home';
+	if (outside) yield 'outside';
 }

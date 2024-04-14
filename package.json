@@ -37,9 +37,11 @@
   "type": "module",
   "dependencies": {
     "@langchain/community": "^0.0.48",
+    "@langchain/groq": "^0.0.8",
     "@types/nodemailer": "^6.4.14",
     "langchain": "^0.1.33",
     "mdsvex": "^0.11.0",
+    "postmark": "^4.0.2",
     "svelte-email": "^0.0.4"
   }
 }
