@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
-import { render } from 'svelte/server';
-import WorkoutPlan from '$lib/workout-plan.svelte';
+import WorkoutPlan from '$lib/server/workout-plan.svelte';
+import { render } from 'svelte-email';
 
 export function send(workout: string) {
 	const transporter = nodemailer.createTransport({
@@ -13,7 +13,10 @@ export function send(workout: string) {
 		}
 	});
 
-	const { html } = render(WorkoutPlan, { props: { content: workout } });
+	const html = render({
+		template: WorkoutPlan,
+		props: { data: { content: workout } }
+	});
 
 	const options = {
 		from: 'you@example.com',

@@ -1,8 +1,6 @@
-import { stripe } from '$lib/checkout';
+import { stripe } from '$lib/server/checkout';
 import { SECRET_STRIPE_WEBHOOK_KEY } from '$env/static/private';
-import { error } from '@sveltejs/kit';
-import { methodNotAllowed, unauthorised } from '$lib/utils/http';
-import CheckoutSessionCompletedEvent from 'stripe';
+import { methodNotAllowed, unauthorised } from '$lib/server/utils/http';
 
 
 async function extracted(request: Request) {
@@ -11,7 +9,7 @@ async function extracted(request: Request) {
 	const payload = toBuffer(payloadBuffer);
 
 	const event = tryCatch(() => stripe.webhooks.constructEvent(payload, sig, SECRET_STRIPE_WEBHOOK_KEY), unauthorised);
-	console.log('type', event.type)
+	console.log('type', event.type);
 	if (event.type !== 'checkout.session.completed') methodNotAllowed();
 	const session = event.data.object;
 	console.log('checkout.session.completed', session);

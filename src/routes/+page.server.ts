@@ -1,5 +1,5 @@
 import { type RequestEvent } from '@sveltejs/kit';
-import { trainer, mailer, checkout } from '$lib';
+import { trainer, mailer, checkout } from '$lib/server';
 import * as stripe from 'stripe';
 
 
