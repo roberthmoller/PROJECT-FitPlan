@@ -2,8 +2,8 @@ import { renderWorkout } from '$lib/server/mails/workout-plan';
 import { compile } from 'mdsvex';
 import { ServerClient } from 'postmark';
 import { SECRET_POSTMARK_KEY } from '$env/static/private';
-import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 import nodemailer from 'nodemailer';
+import { isProduction } from '$lib/server/utils/env';
 
 const subject = 'Your personalised workout plan';
 const sender = '"Robert from FitPlan" <robert@hjortsholm.com>';
@@ -12,7 +12,7 @@ export async function send(workout: string, recipient: string) {
 	const markdown = await compile(workout);
 	const html = renderWorkout(markdown?.code ?? '');
 
-	if (PUBLIC_ENVIRONMENT === 'prod') {
+	if (isProduction()) {
 		const postmark = new ServerClient(SECRET_POSTMARK_KEY);
 		await postmark.sendEmail({
 			From: sender,

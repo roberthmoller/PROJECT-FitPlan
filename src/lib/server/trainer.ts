@@ -4,6 +4,7 @@ import { ChatGroq } from '@langchain/groq';
 import { SECRET_GROQ_KEY } from '$env/static/private';
 import { PUBLIC_ENVIRONMENT } from '$env/static/public';
 import { ChatOllama } from '@langchain/community/chat_models/ollama';
+import { isProduction } from '$lib/server/utils/env';
 
 const chatGroq = new ChatGroq({ apiKey: SECRET_GROQ_KEY });
 const chatOllama = new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
@@ -97,7 +98,7 @@ const prompt = ChatPromptTemplate.fromMessages([
 ]);
 
 export async function planWorkouts(goal: string, details: string, level: string, facilities: string[]) {
-	const llm = PUBLIC_ENVIRONMENT ==='prod' ? chatGroq : chatOllama;
+	const llm = isProduction() ? chatGroq : chatOllama;
 	return await prompt.pipe(llm).pipe(parser).invoke({
 		goal, details, level, facilities: facilities.join(', ')
 	});

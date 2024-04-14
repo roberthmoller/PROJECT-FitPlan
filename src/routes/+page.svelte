@@ -1,5 +1,17 @@
 <script lang="ts">
 	import ExcerptWorkoutPlan from './examples/excerpt-plan.md';
+	import { page } from '$app/stores';
+	import { slide } from 'svelte/transition';
+	import { onMount } from 'svelte';
+
+
+	$: wasSuccess = $page.url.searchParams.has('success');
+	let wasCancelled = $page.url.searchParams.has('cancelled');
+
+	onMount(() => {
+		if (wasSuccess) setTimeout(() => wasSuccess = false, 5000);
+		if (wasCancelled) setTimeout(() => wasCancelled = false, 5000);
+	});
 
 </script>
 <main>
@@ -67,15 +79,35 @@
 		</blockquote>
 	</section>
 	<figure>
-		<img src="https://source.unsplash.com/featured/?gym&workout" alt="Gym Image">
+		<img src="https://source.unsplash.com/featured/?gym&workout" alt="Image of workouts" />
 	</figure>
 </main>
+
+{#if wasSuccess}
+	<article id="toast" transition:slide="{{duration: 1000}}">
+		✅ Purchase successful! Your plan is on its way to your inbox.
+	</article>
+{:else if wasCancelled}
+	<article id="toast" transition:slide="{{duration: 1000}}">
+		❌ Purchase cancelled. No plan was sent.
+	</article>
+{/if}
 <!--        <footer>-->
 <!--            <small><a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a></small>-->
 <!--        </footer>-->
 
 
 <style>
+
+    #toast {
+        position: fixed;
+        bottom: 1em;
+        right: 1em;
+        background: #ffbf00;
+        color: black;
+
+    }
+
     main {
         flex: 1;
         display: flex;
