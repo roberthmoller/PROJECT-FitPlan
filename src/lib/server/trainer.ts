@@ -20,6 +20,8 @@ export const example = `
 - Day 6: Workout #3
 - Day 7: Rest day
 
+---
+
 ### Workout #1: Cardio and Upper Body Strength Training (Home or Gym)
 **Warm up:**
 - 10 minutes of brisk walking (Home: on a treadmill or around the neighborhood; Gym: on a treadmill)
@@ -34,6 +36,8 @@ export const example = `
 **Cool down:**
 - 5 minutes of light walking (Home: in place or around the neighborhood; Gym: on a treadmill)
 - 5 minutes of stretching focused on the upper body (Home or Gym)
+
+---
 
 ### Workout #2: Leg Day and Core Strength (Home or Outdoor)
 **Warm up:**
@@ -50,6 +54,9 @@ export const example = `
 - 5 minutes of gentle walking (Outdoor: in a park; Home: around the neighborhood)
 - 5 minutes of stretching focusing on legs and lower back (Home or Outdoor)
 
+---
+
+
 ### Workout #3: Full Body Light Circuit (Home, Gym, or Outdoor)
 **Warm up:**
 - 10 minutes of light jump rope (Outdoor: park; Home: suitable indoor space; Gym)
@@ -64,7 +71,22 @@ export const example = `
 **Cool down:**
 - 5 minutes of walking (Outdoor: park; Home: around the neighborhood)
 - 5 minutes of full-body stretching including stretches that target the back (Home, Gym, or Outdoor)
-`;
+
+---
+
+## Exercises:
+Make sure to maintain proper form and technique throughout each exercise. If you are unsure about any exercise, consult a fitness professional or trainer.
+You can also [check this link](https://www.muscleandstrength.com/exercises) to see how each exercise is performed.
+
+- Push-ups
+  1. Start in a plank position with your hands shoulder-width apart.
+  2. Lower your body until your chest almost touches the floor.
+  3. Push back up to the starting position.
+- Assisted pull-ups:
+  1. Stand on the assisted pull-up machine platform or place a resistance band over a door.
+  2. Grab the bar with an overhand grip.
+  3. Pull yourself up until your chin is above the bar.
+  4. Slowly lower yourself back down.`;
 
 const trainer_prompt = `
 		You are a world class personal trainer. Your job is to create a workout plan for a client. 

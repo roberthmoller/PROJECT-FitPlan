@@ -17,7 +17,7 @@
 <main>
 	<section>
 		<h2><strong>FitPlan</strong></h2>
-		<p>Your personalized workout starts here. No fuzz, ready in seconds.</p>
+		<p>Your personalized workout starts here. In your inbox in seconds.</p>
 		<hr />
 
 		<h3>Personalize your plan</h3>
@@ -101,8 +101,9 @@
 
     #toast {
         position: fixed;
-        bottom: 1em;
-        right: 1em;
+        bottom: 0;
+        right: 0;
+				margin: 1em;
         background: #ffbf00;
         color: black;
 
