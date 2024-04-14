@@ -71,22 +71,7 @@ export const example = `
 **Cool down:**
 - 5 minutes of walking (Outdoor: park; Home: around the neighborhood)
 - 5 minutes of full-body stretching including stretches that target the back (Home, Gym, or Outdoor)
-
----
-
-## Exercises:
-Make sure to maintain proper form and technique throughout each exercise. If you are unsure about any exercise, consult a fitness professional or trainer.
-You can also [check this link](https://www.muscleandstrength.com/exercises) to see how each exercise is performed.
-
-- Push-ups
-  1. Start in a plank position with your hands shoulder-width apart.
-  2. Lower your body until your chest almost touches the floor.
-  3. Push back up to the starting position.
-- Assisted pull-ups:
-  1. Stand on the assisted pull-up machine platform or place a resistance band over a door.
-  2. Grab the bar with an overhand grip.
-  3. Pull yourself up until your chin is above the bar.
-  4. Slowly lower yourself back down.`;
+`;
 
 const trainer_prompt = `
 		You are a world class personal trainer. Your job is to create a workout plan for a client. 
