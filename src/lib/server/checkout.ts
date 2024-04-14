@@ -5,17 +5,16 @@ import { methodNotAllowed, unauthorised } from '$lib/server/utils/http';
 
 export const stripe = new Stripe(SECRET_STRIPE_KEY);
 
-export async function charge(url: URL, email: string, metadata: { [key: string]: any }) {
+export async function charge(url: URL, metadata: { [key: string]: any }) {
 	const session = await stripe.checkout.sessions.create({
 		line_items: [
 			{ price: 'price_1P56C9EpzTiLPnbs3Hwsu0wh', quantity: 1 }
 		],
-		// customer_email: email,
 		mode: 'payment',
 		allow_promotion_codes: true,
 		success_url: `${url.protocol}//${url.host}?success`,
 		cancel_url: `${url.protocol}//${url.host}?cancelled`,
-		metadata: { email, ...metadata }
+		metadata
 	});
 
 	if (session.url) {

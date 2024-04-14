@@ -4,7 +4,6 @@ import { checkout } from '$lib/server';
 export const actions = {
 	default: async ({ request, url }) => {
 		let {
-			email,
 			goal,
 			details,
 			level,
@@ -12,7 +11,7 @@ export const actions = {
 			honeypot
 		} = await formData(request);
 		if (honeypot) return;
-		await checkout.charge(url, email.toString(), { goal, details, level, gym, home, outside });
+		await checkout.charge(url, { goal, details, level, gym, home, outside });
 	}
 };
 
