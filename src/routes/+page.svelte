@@ -11,14 +11,14 @@
 
 		<form action="#" method="post">
 			<input type="text" name="name" id="name" />
-			<label for="email">
-				Your email address:
-				<br>
-				<small>Where you will receive the workout plan</small>
-			</label>
-			<input id="email" name="email" type="email"
-						 placeholder="email@address.com"
-						 required />
+<!--			<label for="email">-->
+<!--				Your email address:-->
+<!--				<br>-->
+<!--				<small>Where you will receive the workout plan</small>-->
+<!--			</label>-->
+<!--			<input id="email" name="email" type="email"-->
+<!--						 placeholder="email@address.com"-->
+<!--						 required />-->
 
 			<label for="fitness-level">Your fitness level:</label>
 			<select id="fitness-level" name="level" required>

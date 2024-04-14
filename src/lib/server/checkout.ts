@@ -10,11 +10,11 @@ export async function charge(url: URL, email: string, metadata: { [key: string]:
 		line_items: [
 			{ price: 'price_1P56C9EpzTiLPnbs3Hwsu0wh', quantity: 1 }
 		],
-		customer_email: email,
+		// customer_email: email,
 		mode: 'payment',
 		allow_promotion_codes: true,
-		success_url: `${url.protocol}://${url.host}?success`,
-		cancel_url: `${url.protocol}://${url.host}?cancelled`,
+		success_url: `${url.protocol}//${url.host}?success`,
+		cancel_url: `${url.protocol}//${url.host}?cancelled`,
 		metadata: { email, ...metadata }
 	});
 
