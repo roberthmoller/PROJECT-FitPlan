@@ -42,9 +42,10 @@
   "type": "module",
   "dependencies": {
     "@langchain/community": "^0.0.48",
-    "@vercel/flags": "^2.3.0",
     "@langchain/groq": "^0.0.8",
     "@types/nodemailer": "^6.4.14",
+    "@vercel/flags": "^2.3.0",
+    "@vercel/toolbar": "^0.1.14",
     "langchain": "^0.1.33",
     "mdsvex": "^0.11.0",
     "postmark": "^4.0.2",

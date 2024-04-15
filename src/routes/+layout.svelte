@@ -3,12 +3,10 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
-	import { type FlagValuesType } from '@vercel/flags';
 
 	$: wasSuccess = $page.url.searchParams.has('success');
 	$: wasCancelled = $page.url.searchParams.has('cancelled');
 
-	const flagValues: FlagValuesType = { exampleFlag: true };
 
 	onMount(() => {
 		if (wasSuccess) setTimeout(() => wasSuccess = false, 5000);
@@ -16,11 +14,6 @@
 	});
 </script>
 
-<svelte:head>
-	<script type="application/json" data-flag-values>
-		${JSON.stringify(flagValues)}
-	</script>
-</svelte:head>
 
 <main>
 	<nav>
@@ -32,14 +25,14 @@
 				</hgroup>
 			</li>
 		</ul>
-		<ul>
-			<li>
-				<hgroup>
-					<h2 style="text-align: right"><strong><a href="/">MealPlan</a></strong></h2>
-					<p>Your personalized meals starts here</p>
-				</hgroup>
-			</li>
-		</ul>
+<!--		<ul>-->
+<!--			<li>-->
+<!--				<hgroup>-->
+<!--					<h2 style="text-align: right"><strong><a href="/">MealPlan</a></strong></h2>-->
+<!--					<p>Your personalized meals starts here</p>-->
+<!--				</hgroup>-->
+<!--			</li>-->
+<!--		</ul>-->
 	</nav>
 
 	<slot />
