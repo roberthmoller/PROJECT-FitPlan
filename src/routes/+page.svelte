@@ -98,7 +98,11 @@
 
     figure {
       margin-bottom: 1em;
-      background: url('https://source.unsplash.com/featured/?gym&workout') no-repeat center center / cover;
+      background-color: var(--pico-card-background-color);;
+      background-image: url('https://source.unsplash.com/featured/?gym&workout');
+			background-repeat: no-repeat;
+			background-size: cover;
+
       border-radius: var(--pico-border-radius);
     }
   }
