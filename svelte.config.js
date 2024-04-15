@@ -6,7 +6,7 @@ import adapter from '@sveltejs/adapter-vercel';
 const config = {
 	extensions: ['.svelte', '.md'],
 	kit: {
-		adapter: adapter({ runtime: 'edge' })
+		adapter: adapter()
 	},
 	preprocess: [
 		mdsvex({ extensions: ['.md'] }),
