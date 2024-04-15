@@ -3,6 +3,12 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { slide } from 'svelte/transition';
+	import { inject } from '@vercel/analytics';
+	import { dev } from '$app/environment';
+	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+
+	injectSpeedInsights();
+	inject({ mode: dev ? 'development' : 'production' });
 
 	$: wasSuccess = $page.url.searchParams.has('success');
 	$: wasCancelled = $page.url.searchParams.has('cancelled');
@@ -25,14 +31,14 @@
 				</hgroup>
 			</li>
 		</ul>
-<!--		<ul>-->
-<!--			<li>-->
-<!--				<hgroup>-->
-<!--					<h2 style="text-align: right"><strong><a href="/">MealPlan</a></strong></h2>-->
-<!--					<p>Your personalized meals starts here</p>-->
-<!--				</hgroup>-->
-<!--			</li>-->
-<!--		</ul>-->
+		<!--		<ul>-->
+		<!--			<li>-->
+		<!--				<hgroup>-->
+		<!--					<h2 style="text-align: right"><strong><a href="/">MealPlan</a></strong></h2>-->
+		<!--					<p>Your personalized meals starts here</p>-->
+		<!--				</hgroup>-->
+		<!--			</li>-->
+		<!--		</ul>-->
 	</nav>
 
 	<slot />
