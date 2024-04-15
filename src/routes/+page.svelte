@@ -1,37 +1,22 @@
 <script lang="ts">
-	import ExcerptWorkoutPlan from './examples/excerpt-plan.md';
-	import { page } from '$app/stores';
-	import { slide } from 'svelte/transition';
-	import { onMount } from 'svelte';
-
-
-	$: wasSuccess = $page.url.searchParams.has('success');
-	let wasCancelled = $page.url.searchParams.has('cancelled');
-
-	onMount(() => {
-		if (wasSuccess) setTimeout(() => wasSuccess = false, 5000);
-		if (wasCancelled) setTimeout(() => wasCancelled = false, 5000);
-	});
+	import Example from './example-plan.md';
 
 </script>
-<main>
-	<section>
-		<h2><strong>FitPlan</strong></h2>
-		<p>Your personalized workout starts here. In your inbox in seconds.</p>
-		<hr />
+
+<!--<main>-->
+<section class="split">
+	<article>
+		<header>
+			<hgroup>
+				<h2><strong>FitPlan</strong></h2>
+				<p>Your personalized workout starts here. In your inbox in seconds.</p>
+			</hgroup>
+		</header>
 
 		<h3>Personalize your plan</h3>
 
 		<form action="#" method="post">
 			<input type="text" name="name" id="name" />
-			<!--			<label for="email">-->
-			<!--				Your email address:-->
-			<!--				<br>-->
-			<!--				<small>Where you will receive the workout plan</small>-->
-			<!--			</label>-->
-			<!--			<input id="email" name="email" type="email"-->
-			<!--						 placeholder="email@address.com"-->
-			<!--						 required />-->
 
 			<label for="fitness-level">Your fitness level:</label>
 			<select id="fitness-level" name="level" required>
@@ -70,106 +55,88 @@
 								rows="3" />
 			<button type="submit">Get my plan - €1</button>
 		</form>
-
-		<hr />
-
-		<h4>Example Plan:</h4>
-		<blockquote class="plan-example">
-			<ExcerptWorkoutPlan />
-		</blockquote>
-	</section>
-	<figure>
-		<img src="https://source.unsplash.com/featured/?gym&workout" alt="Image of workouts" />
-	</figure>
-</main>
-
-{#if wasSuccess}
-	<article id="toast" transition:slide="{{duration: 1000}}">
-		✅ Purchase successful! Your plan is on its way to your inbox.
 	</article>
-{:else if wasCancelled}
-	<article id="toast" transition:slide="{{duration: 1000}}">
-		❌ Purchase cancelled. No plan was sent.
+	<figure />
+</section>
+<!--	<figure>-->
+<!--	</figure>-->
+<!--</main>-->
+
+<section>
+	<article>
+		<header>
+			<hgroup>
+				<h3>What to expect</h3>
+				<p>Below is an example based on a beginner level with a goal of gaining muscle with every facility available</p>
+			</hgroup>
+		</header>
+		<Example/>
 	</article>
-{/if}
-<!--        <footer>-->
-<!--            <small><a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a></small>-->
-<!--        </footer>-->
+</section>
 
+<style lang="scss">
+  #toast {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 1em;
+    background: #ffbf00;
+    color: black;
+  }
 
-<style>
+  section.split {
+    flex: 1;
+    display: flex;
+    gap: 1rem;
+    margin: auto 0;
+    max-height: 90vh;
+    position: relative;
 
-    #toast {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        margin: 1em;
-        background: #ffbf00;
-        color: black;
-
+    > * {
+      width: 50%;
+      flex-grow: 1;
     }
 
-    main {
-        flex: 1;
-        display: flex;
-        gap: 1rem;
-        margin: auto 0;
-        max-height: 90vh;
-    }
-
-    section {
-        max-width: 50%;
-        flex-grow: 1;
+    article {
+      align-self: start;
     }
 
     figure {
-        max-width: 50%;
-        max-height: 90vh;
-        height: 100%;
+      margin-bottom: 1em;
+      background: url('https://source.unsplash.com/featured/?gym&workout') no-repeat center center / cover;
+      border-radius: var(--pico-border-radius);
     }
+  }
 
-    img {
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
 
-    /*footer {*/
-    /*    text-align: center;*/
-    /*    padding: 10px;*/
-    /*    position: fixed;*/
-    /*    bottom: 0;*/
-    /*    width: 100%;*/
-    /*}*/
+  #facilities {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
 
-    #facilities {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-    }
+  //
+  //.plan-example {
+  //  padding: 10px;
+  //  border-radius: 5px;
+  //  margin-top: 20px;
+  //}
 
-    .plan-example {
-        padding: 10px;
-        border-radius: 5px;
-        margin-top: 20px;
-    }
+  @media screen and (max-width: 768px) {
+    section.split {
+      flex-direction: column;
 
-    @media screen and (max-width: 768px) {
-        main {
-            flex-direction: column;
-        }
+      > * {
+        width: 100%;
+      }
 
-        section {
-            max-width: 100%;
-        }
-
-        figure {
-            display: none;
-        }
-    }
-
-    /** Honey pot field **/
-    #name {
+      figure {
         display: none;
+      }
     }
+  }
+
+  #name {
+    display: none;
+  }
 </style>
