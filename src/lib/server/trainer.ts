@@ -9,7 +9,7 @@ import example from '$lib/server/examples/full-plan.md?raw';
 const chatGroq = new ChatGroq({ apiKey: SECRET_GROQ_KEY });
 const chatOllama = new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
 const parser = new StringOutputParser();
-export const foo = example;
+
 const trainer_prompt = `
 		You are a world class personal trainer. Your job is to create a workout plan for a client. 
 		Make sure to structure the workout to motivate the client and help them reach their goal.
@@ -26,7 +26,6 @@ const trainer_prompt = `
 		
 		${example}
 	`;
-
 
 const user_prompt = `
 	Fitness evaluation:

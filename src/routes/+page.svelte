@@ -1,19 +1,17 @@
 <script lang="ts">
 	import Example from './example-plan.md';
-
 </script>
 
-<!--<main>-->
+
 <section class="split">
 	<article>
 		<header>
 			<hgroup>
-				<h2><strong>FitPlan</strong></h2>
-				<p>Your personalized workout starts here. In your inbox in seconds.</p>
+				<h3>Get your personalized workout plan</h3>
+				<p>Fill in the form below to get your personalized workout plan</p>
 			</hgroup>
 		</header>
 
-		<h3>Personalize your plan</h3>
 
 		<form action="#" method="post">
 			<input type="text" name="name" id="name" />
@@ -58,9 +56,6 @@
 	</article>
 	<figure />
 </section>
-<!--	<figure>-->
-<!--	</figure>-->
-<!--</main>-->
 
 <section>
 	<article>
@@ -70,7 +65,7 @@
 				<p>Below is an example based on a beginner level with a goal of gaining muscle with every facility available</p>
 			</hgroup>
 		</header>
-		<Example/>
+		<Example />
 	</article>
 </section>
 
