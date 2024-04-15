@@ -96,14 +96,36 @@
       align-self: start;
     }
 
+    @keyframes fadeOut {
+      from {
+					opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
+    }
+
     figure {
       margin-bottom: 1em;
-      background-color: var(--pico-card-background-color);;
+      background-color: var(--pico-card-background-color);
       background-image: url('https://source.unsplash.com/featured/?gym&workout');
-			background-repeat: no-repeat;
-			background-size: cover;
-
+      background-repeat: no-repeat;
+      background-size: cover;
       border-radius: var(--pico-border-radius);
+      position: relative;
+
+      &:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--pico-card-background-color);
+        opacity: 1;
+        transition: opacity .5s;
+        animation: 0.25s ease-in 0.5s forwards fadeOut
+      }
     }
   }
 
