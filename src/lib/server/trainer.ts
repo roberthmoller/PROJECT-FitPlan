@@ -6,10 +6,6 @@ import { ChatOllama } from '@langchain/community/chat_models/ollama';
 import { isProduction } from '$lib/server/utils/env';
 import example from '$lib/server/examples/full-plan.md?raw';
 
-const chatGroq = new ChatGroq({ apiKey: SECRET_GROQ_KEY });
-const chatOllama = new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
-const parser = new StringOutputParser();
-
 const trainer_prompt = `
 		You are a world class personal trainer. Your job is to create a workout plan for a client. 
 		Make sure to structure the workout to motivate the client and help them reach their goal.
@@ -41,7 +37,10 @@ const prompt = ChatPromptTemplate.fromMessages([
 ]);
 
 export async function planWorkouts(goal: string, details: string, level: string, facilities: string[]) {
-	const llm = isProduction() ? chatGroq : chatOllama;
+	const parser = new StringOutputParser();
+	const llm = isProduction()
+		? new ChatGroq({ apiKey: SECRET_GROQ_KEY })
+		: new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
 	return await prompt.pipe(llm).pipe(parser).invoke({
 		goal, details, level, facilities: facilities.join(', ')
 	});
