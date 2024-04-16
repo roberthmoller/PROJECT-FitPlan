@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { SECRET_STRIPE_KEY, SECRET_STRIPE_WEBHOOK_KEY } from '$env/static/private';
+import { SECRET_STRIPE_KEY, SECRET_STRIPE_WEBHOOK_KEY, SECRET_STRIPE_WORKOUT_PLAN_PRICE_ID } from '$env/static/private';
 import { type Cookies, redirect } from '@sveltejs/kit';
 import { methodNotAllowed, unauthorised } from '$lib/server/utils/http';
 
@@ -8,7 +8,7 @@ export const stripe = new Stripe(SECRET_STRIPE_KEY);
 export async function charge(url: URL, metadata: { [key: string]: any }) {
 	const session = await stripe.checkout.sessions.create({
 		line_items: [
-			{ price: 'price_1P56C9EpzTiLPnbs3Hwsu0wh', quantity: 1 }
+			{ price: SECRET_STRIPE_WORKOUT_PLAN_PRICE_ID, quantity: 1 }
 		],
 		mode: 'payment',
 		allow_promotion_codes: true,
