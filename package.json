@@ -13,7 +13,7 @@
     "format": "prettier --write .",
     "test:integration": "playwright test",
     "test:unit": "vitest",
-    "stripe:webhook": "stripe listen --forward-to http://localhost:5173/success\n"
+    "stripe:webhook": "stripe listen --forward-to http://localhost:5173/"
   },
   "devDependencies": {
     "@picocss/pico": "^2.0.6",
@@ -43,14 +43,17 @@
   "dependencies": {
     "@langchain/community": "^0.0.48",
     "@langchain/groq": "^0.0.8",
+    "@prisma/client": "^5.12.1",
     "@types/nodemailer": "^6.4.14",
     "@vercel/analytics": "^1.2.2",
     "@vercel/flags": "^2.3.0",
+    "@vercel/postgres": "^0.5.1",
     "@vercel/speed-insights": "^1.0.10",
     "@vercel/toolbar": "^0.1.14",
     "langchain": "^0.1.33",
     "mdsvex": "^0.11.0",
     "postmark": "^4.0.2",
+    "prisma": "^5.12.1",
     "svelte-email": "^0.0.4"
   }
 }
