@@ -8,19 +8,19 @@ import { isProduction } from '$lib/server/utils/env';
 const subject = 'Your personalised workout plan';
 const sender = '"Robert from FitPlan" <robert@hjortsholm.com>';
 
-export async function send(workout: string, recipient: string) {
-	const markdown = await compile(workout);
-	const html = renderWorkout(markdown?.code ?? '');
+export async function send(workout: string, recipient: string): Promise<boolean> {
+
 
 	if (isProduction()) {
 		const postmark = new ServerClient(SECRET_POSTMARK_KEY);
-		await postmark.sendEmail({
+		const response = await postmark.sendEmail({
 			From: sender,
 			// From: '"Robert from FitPlan" <robert@fitplan.com>',
 			To: recipient,
 			Subject: subject,
-			HtmlBody: html
+			HtmlBody: workout
 		});
+		return response.ErrorCode === 0;
 	} else {
 		const transporter = nodemailer.createTransport({
 			host: 'smtp.ethereal.email',
@@ -35,8 +35,9 @@ export async function send(workout: string, recipient: string) {
 			from: sender,
 			to: recipient,
 			subject: subject,
-			html: html
+			html: workout
 		};
-		await transporter.sendMail(options);
+		const response = await transporter.sendMail(options);
+		return response.accepted.length > 0;
 	}
 }

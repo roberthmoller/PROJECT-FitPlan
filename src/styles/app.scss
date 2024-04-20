@@ -1,6 +1,9 @@
-
 @use "@picocss/pico/scss/pico" with (
   $enable-semantic-container: true,
-  $enable-classes: false,
+  $enable-classes: true,
   $theme-color: "pumpkin",
 );
+
+:root {
+  --pico-nav-breadcrumb-divider: '/'
+}

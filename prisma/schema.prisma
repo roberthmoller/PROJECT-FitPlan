@@ -9,17 +9,26 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
-  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  provider  = "postgresql"
+  url       = env("DATABASE_PRISMA_URL")
+  directUrl = env("DATABASE_URL_NON_POOLING")
 }
 
-model WorkoutPlan {
-  order_id    String @id
-  customer_id String
-  level       String
-  goal        String
-  facilities  String
-  details     String
-  content     String
+model Orders {
+  id           String   @id @unique
+  customer     String
+  level        String
+  goal         String
+  facilities   String[]
+  details      String
+  createdAt    DateTime @default(now())
+  wasGenerated Boolean  @default(false)
+  wasSent      Boolean  @default(false)
+}
+
+model Plans {
+  id        String   @id @unique
+  customer  String
+  content   String
+  createdAt DateTime @default(now())
 }

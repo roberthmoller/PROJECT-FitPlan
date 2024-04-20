@@ -6,13 +6,18 @@
 	import { inject } from '@vercel/analytics';
 	import { dev } from '$app/environment';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+	import Stripe from 'stripe';
+
+	export let data: { customer: Stripe.Customer | undefined };
+	import { Toaster } from 'svelte-sonner';
+
 
 	injectSpeedInsights();
 	inject({ mode: dev ? 'development' : 'production' });
 
 	$: wasSuccess = $page.url.searchParams.has('success');
 	$: wasCancelled = $page.url.searchParams.has('cancelled');
-
+	$: path = $page.url.pathname.split('/').filter((x) => x);
 
 	onMount(() => {
 		if (wasSuccess) setTimeout(() => wasSuccess = false, 5000);
@@ -26,19 +31,28 @@
 		<ul>
 			<li>
 				<hgroup>
-					<h2><strong>FitPlan</strong></h2>
+					<h2><strong><a href="/" aria-current={path.length === 0}>FitPlan</a></strong></h2>
+					<!--					<h2 style="text-align: right"><strong><a href="/">MealPlan</a></strong></h2>-->
+
 					<p>Your personalized workout starts here</p>
 				</hgroup>
 			</li>
 		</ul>
-		<!--		<ul>-->
-		<!--			<li>-->
-		<!--				<hgroup>-->
-		<!--					<h2 style="text-align: right"><strong><a href="/">MealPlan</a></strong></h2>-->
-		<!--					<p>Your personalized meals starts here</p>-->
-		<!--				</hgroup>-->
-		<!--			</li>-->
-		<!--		</ul>-->
+		<ul>
+			<li>
+				<hgroup>
+					{#if data.customer}
+						<h4 style="text-align: right"><a class="contrast" aria-current={path.length > 0} href="/{data.customer.id}">Orders</a>
+						</h4>
+						<p>{data.customer.email}</p>
+					{:else}
+						<h4 style="text-align: right">Orders</h4>
+						<p><a href="/login">Login</a> to view your orders</p>
+						<!--TODO: Add "login" flow-->
+					{/if}
+				</hgroup>
+			</li>
+		</ul>
 	</nav>
 
 	<slot />
@@ -57,6 +71,9 @@
 	<!--	            <small><a href="#">Privacy Policy</a> • <a href="#">Terms of Service</a></small>-->
 	<!--	        </footer>-->
 </main>
+
+<Toaster richColors theme="system" />
+
 
 <style lang="scss">
   /*footer {*/

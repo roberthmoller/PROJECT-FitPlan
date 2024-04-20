@@ -13,13 +13,14 @@ export enum ProductStatus {
 }
 
 export async function charge(url: URL, cookies: Cookies, metadata: { [key: string]: any }) {
+	const customerId = cookies.get('customer_id');
 	const session = await stripe.checkout.sessions.create({
 		line_items: [
 			{ price: SECRET_STRIPE_WORKOUT_PLAN_PRICE_ID, quantity: 1 }
 		],
 		// todo: Check cookies for encrypted customer id and use here if available
-		customer: cookies.get('customer_id'),
-		customer_creation: 'always',
+		customer: customerId,
+		customer_creation: customerId ? undefined : 'always',
 		mode: 'payment',
 		allow_promotion_codes: true,
 		success_url: `${url.protocol}//${url.host}/plan/{CHECKOUT_SESSION_ID}`,
