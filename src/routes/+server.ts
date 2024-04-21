@@ -52,7 +52,7 @@ export async function POST({ request }) {
 
 
 	console.log('📧\tSending workout plan');
-	const wasSent = await mailer.send(htmlWorkouts, email!);
+	const wasSent = await mailer.sendWorkout(htmlWorkouts, email!);
 	console.log('✅\tWorkout plan sent');
 
 	console.log('💾\tMarking order as fulfilled');

@@ -3,7 +3,7 @@ import { redirect } from '@sveltejs/kit';
 
 
 export async function GET({ params }) {
-	const sessionId = params.id;
+	const { sessionId } = params;
 	const session = await stripe.checkout.sessions.retrieve(sessionId);
 	redirect(302, `/${session.customer}`);
 }

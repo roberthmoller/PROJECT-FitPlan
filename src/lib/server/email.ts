@@ -8,9 +8,7 @@ import { isProduction } from '$lib/server/utils/env';
 const subject = 'Your personalised workout plan';
 const sender = '"Robert from FitPlan" <robert@hjortsholm.com>';
 
-export async function send(workout: string, recipient: string): Promise<boolean> {
-
-
+export async function sendWorkout(workout: string, recipient: string): Promise<boolean> {
 	if (isProduction()) {
 		const postmark = new ServerClient(SECRET_POSTMARK_KEY);
 		const response = await postmark.sendEmail({
@@ -36,6 +34,47 @@ export async function send(workout: string, recipient: string): Promise<boolean>
 			to: recipient,
 			subject: subject,
 			html: workout
+		};
+		const response = await transporter.sendMail(options);
+		return response.accepted.length > 0;
+	}
+}
+
+export async function sendMagicLink(email: string, link: string): Promise<boolean> {
+	const markdown = `
+	# Magic link
+	You requested a magic link to login. Click [here](${link}) to login.
+	
+	---
+	
+	**Note**: Once you click the link, you will be logged in automatically.
+	`;
+	const html = (await compile(markdown))?.code;
+
+	if (isProduction()) {
+		const postmark = new ServerClient(SECRET_POSTMARK_KEY);
+		const response = await postmark.sendEmail({
+			From: sender,
+			To: email,
+			Subject: 'Magic link',
+			HtmlBody: html
+		});
+		return response.ErrorCode === 0;
+	} else {
+		const transporter = nodemailer.createTransport({
+			host: 'smtp.ethereal.email',
+			port: 587,
+			secure: false,
+			auth: {
+				user: 'katelynn.hamill@ethereal.email',
+				pass: '9hTJ34VFzRsReeNfGg'
+			}
+		});
+		const options = {
+			from: sender,
+			to: email,
+			subject: 'Magic link to login',
+			html: html
 		};
 		const response = await transporter.sendMail(options);
 		return response.accepted.length > 0;

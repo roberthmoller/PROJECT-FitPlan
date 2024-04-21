@@ -1,9 +1,9 @@
-import { PUBLIC_ENVIRONMENT } from '$env/static/public';
+import { NODE_ENV } from '$env/static/private';
 
 export function isProduction() {
-	return PUBLIC_ENVIRONMENT === 'prod';
+	return NODE_ENV === 'production';
 }
 
 export function isDevelopment() {
-	return PUBLIC_ENVIRONMENT === 'dev';
+	return NODE_ENV === 'development';
 }

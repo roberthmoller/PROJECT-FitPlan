@@ -1,16 +1,12 @@
 import { orders } from '$lib/server/database';
+import { Utf8 } from 'crypto-es/lib/core';
 
 
-export async function load({ cookies, params, url,request }) {
+export async function load({ cookies, params, url, request }) {
 	const { customer } = params;
-	// todo: Decrypt customer id
-
-	if (cookies.get('customer_id') !== customer) {
-		// todo: Encrypt customer id
-		cookies.set('customer_id', customer, { path: '/' });
+	if (cookies.get('CustomerId') !== customer) {
+		cookies.set('CustomerId', customer, { path: '/' });
 	}
-	// const session = await stripe.checkout.sessions.retrieve(sessionId);
-	// const { metadata, customer, customer_details } = session;
 
 	return {
 		orders: await orders.findMany({ where: { customer } })

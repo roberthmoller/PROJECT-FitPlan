@@ -1,9 +1,9 @@
 import { stripe } from '$lib/server/checkout';
 
-
 export async function load({ cookies }) {
-	const customer = cookies.get('customer_id');
+	const customerId = cookies.get('CustomerId');
+	if (!customerId) return {};
 	return {
-		customer: customer ? await stripe.customers.retrieve(customer) : undefined
+		customer: await stripe.customers.retrieve(customerId)
 	};
 }

@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { Order } from '@prisma/client';
 	import { Stripe } from 'stripe';
-	import Time from 'svelte-time';
+	import Time, { dayjs } from 'svelte-time';
 	import { toast } from 'svelte-sonner';
+	import { type Order } from '$lib/types';
 
 	export let data: { orders: Order[], customer: Stripe.Customer };
 
@@ -73,6 +73,14 @@
 	}
 </script>
 
+
+<nav aria-label="breadcrumb">
+	<ul>
+		<li><a href="/">Home</a></li>
+		<li>Orders</li>
+	</ul>
+</nav>
+
 <header>
 	<h3>All orders</h3>
 </header>
@@ -88,14 +96,14 @@
 			<th scope="col" />
 		</tr>
 		</thead>
-		{#each data.orders as order}
+		{#each data?.orders ?? [] as order}
 			<tr>
 				<td>{formatLevel(order.level)}</td>
 				<td>{formatGoal(order.goal)}</td>
 				<td>{formatFacilities(order.facilities)}</td>
 				{#if order.wasGenerated}
 					<td>
-						<Time timestamp={order.createdAt} relative />
+						<Time timestamp={order.createdAt} relative  data-tooltip={dayjs(order.createdAt).format("DD/MM/YYYY @ HH:ss")} />
 					</td>
 
 					<td>
