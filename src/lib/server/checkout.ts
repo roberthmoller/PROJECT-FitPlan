@@ -23,7 +23,7 @@ export async function charge(url: URL, cookies: Cookies, metadata: { [key: strin
 		customer_creation: customerId ? undefined : 'always',
 		mode: 'payment',
 		allow_promotion_codes: true,
-		success_url: `${url.protocol}//${url.host}/plan/{CHECKOUT_SESSION_ID}`,
+		success_url: `${url.protocol}//${url.host}/checkout/{CHECKOUT_SESSION_ID}`,
 		cancel_url: `${url.protocol}//${url.host}?cancelled`,
 		metadata: { ...metadata, status: ProductStatus.CHECKOUT }
 	});
