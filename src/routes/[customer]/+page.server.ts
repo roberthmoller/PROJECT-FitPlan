@@ -1,11 +1,16 @@
 import { orders } from '$lib/server/database';
-import { Utf8 } from 'crypto-es/lib/core';
+import { stripe } from '$lib/server/checkout';
 
 
-export async function load({ cookies, params, url, request }) {
+export async function load({ cookies, params }) {
 	const { customer } = params;
 	if (cookies.get('CustomerId') !== customer) {
 		cookies.set('CustomerId', customer, { path: '/' });
+
+		return {
+			customer: await stripe.customers.retrieve(customer),
+			orders: await orders.findMany({ where: { customer } })
+		};
 	}
 
 	return {
