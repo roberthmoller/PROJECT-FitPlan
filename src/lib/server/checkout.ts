@@ -13,7 +13,7 @@ export enum ProductStatus {
 }
 
 export async function charge(url: URL, cookies: Cookies, metadata: { [key: string]: any }) {
-	const customerId = cookies.get('customer_id');
+	const customerId = cookies.get('CustomerId');
 	const session = await stripe.checkout.sessions.create({
 		line_items: [
 			{ price: SECRET_STRIPE_WORKOUT_PLAN_PRICE_ID, quantity: 1 }
@@ -25,7 +25,7 @@ export async function charge(url: URL, cookies: Cookies, metadata: { [key: strin
 		allow_promotion_codes: true,
 		success_url: `${url.protocol}//${url.host}/checkout/{CHECKOUT_SESSION_ID}`,
 		cancel_url: `${url.protocol}//${url.host}?cancelled`,
-		metadata: { ...metadata, status: ProductStatus.CHECKOUT }
+		metadata
 	});
 
 	if (session.url) {

@@ -2,13 +2,13 @@ import { checkout, mailer, trainer } from '$lib/server';
 import { error } from '@sveltejs/kit';
 import { orders, plans } from '$lib/server/database';
 import { compile } from 'mdsvex';
-import { renderWorkout } from '$lib/server/mails/workout-plan';
+import { workoutTemplate } from '$lib/server/mails/workout-plan';
 
 
-export async function POST({ request }) {
+export async function POST({ request, url }) {
 	console.log('💳\tVerifying purchase');
 	const session = await checkout.onComplete(request);
-	console.log(session);
+	// console.log(session);
 	const { metadata, customer, customer_details, customer_email, payment_intent, id } = session;
 	console.log('✅\tPurchase verified');
 
@@ -19,7 +19,7 @@ export async function POST({ request }) {
 
 
 	console.log('✍️\tCreating record');
-	await orders.create({
+	const record = await orders.create({
 		data: {
 			customer: customer as string, details, level, goal, facilities, id
 		}
@@ -30,8 +30,6 @@ export async function POST({ request }) {
 	console.log('💭\tPlanning workouts');
 	const rawWorkouts = await trainer.planWorkouts(goal, details, level, facilities);
 	const strippedWorkouts = getStrippedWorkouts(rawWorkouts);
-	const markdownWorkouts = await compile(strippedWorkouts);
-	const htmlWorkouts = renderWorkout(markdownWorkouts?.code ?? '');
 	console.log('🏃‍\tWorkouts planned');
 
 
@@ -52,7 +50,7 @@ export async function POST({ request }) {
 
 
 	console.log('📧\tSending workout plan');
-	const wasSent = await mailer.sendWorkout(htmlWorkouts, email!);
+	const wasSent = await mailer.sendWorkout(strippedWorkouts, email!, customer as string, url, record.createdAt);
 	console.log('✅\tWorkout plan sent');
 
 	console.log('💾\tMarking order as fulfilled');

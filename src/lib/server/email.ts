@@ -1,4 +1,4 @@
-import { renderWorkout } from '$lib/server/mails/workout-plan';
+import { workoutTemplate } from '$lib/server/mails/workout-plan';
 import { compile } from 'mdsvex';
 import { ServerClient } from 'postmark';
 import { SECRET_POSTMARK_KEY } from '$env/static/private';
@@ -8,7 +8,8 @@ import { isProduction } from '$lib/server/utils/env';
 const subject = 'Your personalised workout plan';
 const sender = '"Robert from FitPlan" <robert@hjortsholm.com>';
 
-export async function sendWorkout(workout: string, recipient: string): Promise<boolean> {
+export async function sendWorkout(workout: string, recipient: string, customer: string, url: URL, createdAt: Date): Promise<boolean> {
+	const email = await compile(workoutTemplate(workout, url, customer, createdAt));
 	if (isProduction()) {
 		const postmark = new ServerClient(SECRET_POSTMARK_KEY);
 		const response = await postmark.sendEmail({
@@ -16,7 +17,7 @@ export async function sendWorkout(workout: string, recipient: string): Promise<b
 			// From: '"Robert from FitPlan" <robert@fitplan.com>',
 			To: recipient,
 			Subject: subject,
-			HtmlBody: workout
+			HtmlBody: email?.code
 		});
 		return response.ErrorCode === 0;
 	} else {
@@ -33,7 +34,7 @@ export async function sendWorkout(workout: string, recipient: string): Promise<b
 			from: sender,
 			to: recipient,
 			subject: subject,
-			html: workout
+			html: email?.code
 		};
 		const response = await transporter.sendMail(options);
 		return response.accepted.length > 0;
