@@ -70,15 +70,6 @@
 </section>
 
 <style lang="scss">
-  #toast {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    margin: 1em;
-    background: #ffbf00;
-    color: black;
-  }
-
   section.split {
     flex: 1;
     display: flex;
