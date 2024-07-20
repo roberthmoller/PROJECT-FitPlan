@@ -1,7 +1,7 @@
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import { ChatGroq } from '@langchain/groq';
-import { SECRET_GROQ_KEY } from '$env/static/private';
+import { SECRET_GROQ_KEY, SECRET_GROQ_MODEL } from '$env/static/private';
 import { ChatOllama } from '@langchain/community/chat_models/ollama';
 import { isProduction } from '$lib/server/utils/env';
 import example from '$lib/server/examples/full-plan.md?raw';
