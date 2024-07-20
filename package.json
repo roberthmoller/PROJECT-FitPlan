@@ -14,7 +14,7 @@
     "format": "prettier --write .",
     "test:integration": "playwright test",
     "test:unit": "vitest",
-    "stripe:webhook": "stripe listen --forward-to http://localhost:5173/",
+    "stripe:webhook": "stripe listen --forward-to http://localhost:5173/checkout",
     "prisma:migrate": "npx prisma migrate dev --name init",
     "pg:start": "brew services start postgresql@14",
     "pg:stop": "brew services stop postgresql@14"
