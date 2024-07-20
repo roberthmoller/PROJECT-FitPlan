@@ -39,7 +39,7 @@ const prompt = ChatPromptTemplate.fromMessages([
 export async function planWorkouts(goal: string, details: string, level: string, facilities: string[]) {
 	const parser = new StringOutputParser();
 	const llm = isProduction()
-		? new ChatGroq({ apiKey: SECRET_GROQ_KEY })
+		? new ChatGroq({ apiKey: SECRET_GROQ_KEY , model: SECRET_GROQ_MODEL })
 		: new ChatOllama({ baseUrl: 'http://localhost:11434', model: 'mistral' });
 	return await prompt.pipe(llm).pipe(parser).invoke({
 		goal, details, level, facilities: facilities.join(', ')
