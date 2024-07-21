@@ -1,38 +1,67 @@
-# create-svelte
+# FitPlan
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+FitPlan is a website where you provide your workout requirements and goals, and it uses a Large Language Model (LLM) to generate a customized workout plan, which is then sent to you via email. The project uses Stripe for payments, Postmark for emails, a PostgreSQL database, and is hosted on Vercel.
 
-## Creating a project
+## Features
+- Generate personalized workout plans using LLM.
+- Receive workout plans via email.
+- Secure payment processing with Stripe.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Environment Variables
+To run this project, you will need to add the following environment variables to your .env file:
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
+```env
+SECRET_STRIPE_KEY
+SECRET_STRIPE_WEBHOOK_KEY
+SECRET_STRIPE_WORKOUT_PLAN_PRICE_ID
+DATABASE_PRISMA_URL
+DATABASE_URL_NON_POOLING
+DATABASE_URL
+DATABASE_USER
+DATABASE_PASSWORD
+DATABASE_HOST
+DATABASE_DATABASE
+PUBLIC_ENVIRONMENT
+SECRET_GROQ_MODEL
+SECRET_GROQ_KEY
+SECRET_POSTMARK_KEY
 ```
 
-## Developing
+## Getting Started
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Prerequisites
+- Node.js
+- npm
+- PostgreSQL
 
-```bash
-npm run dev
+### Installation
+1. Clone the repository
+   ```sh
+   git clone https://github.com/yourusername/fitplan.git
+   ```
+2. Navigate to the project directory
+   ```sh
+   cd fitplan
+   ```
+3. Install dependencies
+   ```sh
+   npm install
+   ```
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+### Running Locally
+1. Set up a PostgreSQL database and migrate the schemas
+   ```sh
+   npm run prisma:migrate
+   ```
+2. Forward Stripe webhooks
+   ```sh
+   npm run stripe:webhooks
+   ```
+3. Start the development server
+   ```sh
+   npm run dev
+   ```
 
-## Building
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
